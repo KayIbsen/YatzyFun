@@ -46,7 +46,7 @@ body {
       position: absolute;
       bottom: 50px;
       right: 50px;
-      border: solid 4px green;
+      border: solid 4px rgb(59, 148, 59);
       background-color: lightgreen;
       color: darkgreen;
       font-size: 30px;
