@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YatzyFun</title>
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Da+2&display=swap" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="style.css">
+
+
+</head>
+<body>
+
+  <div id="board">
+
+    <table id="saved">
+      <tr>
+        <td id="10" onclick="controller.move(this.id)"></td>
+        <td id="11" onclick="controller.move(this.id)"></td>
+        <td id="12" onclick="controller.move(this.id)"></td>
+        <td id="13" onclick="controller.move(this.id)"></td>
+        <td id="14" onclick="controller.move(this.id)"></td>
+        <td id="15" onclick="controller.move(this.id)"></td>
+      </tr>
+    </table>
+
+    <table id="unSaved">
+      <tr>
+        <td id="0" onclick="controller.move(this.id)"></td>
+        <td id="1" onclick="controller.move(this.id)"></td>
+        <td id="2" onclick="controller.move(this.id)"></td>
+        <td id="3" onclick="controller.move(this.id)"></td>
+        <td id="4" onclick="controller.move(this.id)"></td>
+        <td id="5" onclick="controller.move(this.id)"></td>
+      </tr>
+    </table>
+
+   
+    <button id="rollButton" class="button" onclick="controller.roll()">Roll</button>
+    
+
+
+    
+  <div id="achievementList">
+    <table>
+      <tr>
+        <td class="achName"s>Aces</td>
+        <td id="50" class="point"></td>
+        <td><button id="30" class="btnInvis" onclick="controller.select(this.id)">+</button></td>
+      </tr>
+        <tr>
+          <td class="achName"s>Twoes</td>
+          <td id="51" class="point"></td>
+          <td><button id="31" class="btnInvis" onclick="controller.select(this.id)">+</button></td>
+        </tr>
+        <tr>
+          <td class="achName"s>Threes</td>
+          <td id="52" class="point"></td>
+          <td><button id="32" class="btnInvis" onclick="controller.select(this.id)">+</button></td>
+        </tr>
+        <tr>
+          <td class="achName"s>Fours</td>
+          <td id="53" class="point"></td>
+          <td><button id="33" class="btnInvis" onclick="controller.select(this.id)">+</button></td>
+        </tr>
+        <tr>
+          <td class="achName"s>Fives</td>
+          <td id="54"class="point"></td>
+          <td><button id="34" class="btnInvis" onclick="controller.select(this.id)">+</button></td>
+        </tr>
+        <tr>
+          <td class="achName">Sixes</td>
+          <td id="55" class="point"></td>
+          <td><button id="35" class="btnInvis" onclick="controller.select(this.id)">+</button></td>
+        </tr>
+        <tr>
+          <td class="achName">3 of a kind</td>
+          <td id="56" class="point"></td>
+          <td><button id="36" class="btnInvis" onclick="controller.select(this.id)">+</button></td>
+        </tr>
+        <tr>
+          <td class="achName">4 of a kind</td>
+          <td id="57" class="point"></td>
+          <td><button id="37" class="btnInvis" onclick="controller.select(this.id)">+</button></td>
+        </tr>
+        <tr>
+          <td class="achName">Small Straight</td>
+          <td id="58" class="point"></td>
+          <td><button id="38" class="btnInvis" onclick="controller.select(this.id)">+</button></td>
+        </tr>
+        <tr>
+          <td class="achName">Large Straight</td>
+          <td id="59" class="point"></td>
+          <td><button id="39" class="btnInvis" onclick="controller.select(this.id)">+</button></td>
+        </tr>
+        <tr>
+          <td class="achName">Yatzy</td>
+          <td id="60" class="point"></td>
+          <td><button id="40" class="btnInvis" onclick="controller.select(this.id)">+</button></td>
+        </tr>
+        <tr>
+          <td class="achName">Chance</td>
+          <td id="61" class="point"></td>
+          <td><button id="41" class="btnInvis" onclick="controller.select(this.id)">+</button></td>
+        </tr>
+        <tr>
+          <td class="achName"></td>
+          <td id="69" class="point"></td>
+        </tr>
+      </tr>
+    </table>
+  </div>
+  
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>

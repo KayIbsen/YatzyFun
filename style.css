@@ -1,0 +1,159 @@
+body { 
+      background-color: rgb(139, 139, 139);
+      font-family: 'Baloo Da 2', cursive;
+    }
+
+    div#board {
+      position: relative;
+      width: 700px;
+      height: 900px;
+      margin: auto;
+      background-color: rgb(54, 54, 54);   
+      border-radius: 40px;
+      }
+
+    #saved {
+      position: absolute;
+      top: 115px;
+      left: 280px;
+      border-spacing: 10px;
+      background-color: rgb(236, 236, 236);
+      border-radius: 10px;
+      box-shadow: 0 12px 16px 0 black;
+    }
+
+    #unSaved {
+      position: absolute;
+      top: 615px;
+      left: 280px;
+      border-spacing: 10px;
+      background-color: rgb(255, 128, 0);
+      border-radius: 10px;
+      box-shadow: 0 12px 16px 0 black;
+    }
+
+    #saved td,
+    #unSaved td {
+      width: 50px;
+      height: 50px;
+    }
+
+
+    #rollButton {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 50px;
+      right: 50px;
+      border: solid 4px green;
+      background-color: lightgreen;
+      color: darkgreen;
+      font-size: 30px;
+    }
+    .button:hover {
+      box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+      cursor: pointer;
+      font-size: 26px;
+    }
+    button {
+      margin-left: 10px;
+      background-color: rgb(196, 98, 0);
+    }
+    #achievementList {
+      position: absolute;
+      font-size: 20px;
+      top: 150px;
+      left: -120px;
+    }
+    #achievementList tr {
+      display: flex;
+      margin-top: 10px;
+    }
+    #achievementList .point {
+      background-color: rgb(0, 88, 117);
+      width: 50px;
+      justify-content: center;
+      text-align: center;
+      border: solid rgb(196, 98, 0) 3px;
+      border-radius: 0 0 10px  0;
+      border-left: none;
+      color: rgb(230, 230, 230);
+    }
+    #achievementList .achName {
+      background-color: rgb(0, 88, 117);
+      height: 36px;
+      width: 200px;
+      padding-left: 20px;
+      border: solid rgb(196, 98, 0) 3px;
+      border-right: none;
+      border-radius: 10px 0 0 0px;
+      color: rgb(230, 230, 230);
+    }
+    #achievementList .achNameSelected {
+      background-color: blue;
+      height: 36px;
+      width: 200px;
+      padding-left: 20px;
+      border: solid rgb(196, 98, 0) 2px;
+      border-right: none;
+    }
+    #achievementList .btnSelect{
+      color: green;
+      height: 36px;
+      width: 36px;
+      font-size: 20px;
+    }
+    #achievementList .btnCancel{
+      height: 36px;
+      width: 36px;
+      font-size: 20px;
+    }
+    #achievementList button:hover{
+      cursor: pointer;
+      background-color: green;
+    }
+    #achievementList .btnInvis {
+      display: none;
+    }
+    #achievementList .btnSelected {
+      background-color: rgba(95, 255, 220, 0.8);
+    }
+   
+    #saved tr:hover,
+    #unSaved tr:hover {
+      cursor: pointer;
+    }
+  
+    .dice0 {
+      background: none;
+      cursor: auto;
+    }
+
+    .dice1 {
+      background: url("images/dice/diceOne.png") no-repeat center center;
+    }
+    .dice2 {
+      background: url("images/dice/diceTwo.png") no-repeat center center;
+    }
+    .dice3 {
+      background: url("images/dice/diceThree.png") no-repeat center center;
+    }
+    .dice4 {
+      background: url("images/dice/diceFour.png") no-repeat center center;
+    }
+    .dice5 {
+      background: url("images/dice/diceFive.png") no-repeat center center;
+    }
+    .dice6 {
+      background: url("images/dice/diceSix.png") no-repeat center center;
+    }
+
+
+
+
+
+
+
+    
+
