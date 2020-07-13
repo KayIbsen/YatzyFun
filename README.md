@@ -1,0 +1,2 @@
+# YatzyFun
+Yahtzee dice game
