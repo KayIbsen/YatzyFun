@@ -2,12 +2,34 @@
 var controller = {
   saved: [0,0,0,0,0,0],
   unSaved: [0,0,0,0,0,0],
-  ach: [0,0,0,0,0,0,0,0,0,0,0,0],
+  ach: [0,0,0,0,0,0,0,0,0,0,0],
   count: 0,
   numOfRolls: 3,
-  points: [0,0,0,0,0,0,0,0,0,0,0,0],
+  points: [0,0,0,0,0,0,0,0,0,0,0],
+  gameFinish: false,
   init: ()=> {
     controller.newRound();
+  },
+  newRound: function(){
+    for(i=0;i<this.unSaved.length;i++){
+      let newDice = controller.newDice();
+      this.unSaved[i] = newDice;
+      view.renderDice(i, newDice);
+    }
+  controller.count++;
+  view.renderBtn();
+  },
+  endRound: function(){
+   this.resetDiceList(this.unSaved, 0);
+   this.resetDiceList(this.saved, 10);
+   controller.count = 0;
+   //if then newRound
+   if (controller.CheckForGameFinish()){
+     console.log('game is over');
+   } else {   
+     controller.newRound();
+    console.log('newRound() will be called');
+   }
   },
   move: (id)=>{
     if (id<6){
@@ -33,21 +55,6 @@ var controller = {
       }
     }
   },
-  newRound: function(){
-    for(i=0;i<this.unSaved.length;i++){
-      let newDice = controller.newDice();
-      this.unSaved[i] = newDice;
-      view.renderDice(i, newDice);
-    }
-  controller.count++;
-  view.renderBtn();
-  },
-  endRound: function(){
-   this.resetDiceList(this.unSaved, 0);
-   this.resetDiceList(this.saved, 10);
-   controller.count = 0;
-   controller.newRound();
-  },
   resetDiceList: (list, factor)=>{
     for(i=0;i<list.length;i++){
       list[i]=0;
@@ -67,6 +74,11 @@ var controller = {
     achievement.check(list);
     view.renderAchBtn();
   },
+  CheckForGameFinish: ()=>{
+    //If all has been either selected or cancelled, game is over
+    let allSelected = (value) => value>2;
+    return controller.ach.every(allSelected);
+  },
   roll: ()=>{
     if(controller.count < controller.numOfRolls){
       controller.count++;
@@ -82,14 +94,16 @@ var controller = {
   },
   select: (id)=>{
     var arrIndex = id - 30;
-    controller.changeAchList(arrIndex, 2);
+    //Choose between 'select' and 'cancel'
+    if (controller.ach[arrIndex]==1){
+    //'select'
+      controller.changeAchList(arrIndex, 3);
+    } else {
+    //'cancel'
+      controller.changeAchList(arrIndex, 4);
+    }
     controller.resetAchList();
-    view.renderAchBtn();
-    console.log(controller.ach);
-    let sumOfPoints = controller.sumPoints(controller.saved);
-    controller.addPoints(arrIndex, sumOfPoints);
-    view.renderPoint(arrIndex, sumOfPoints);
-    controller.totalPoints(controller.points);
+    controller.updatePoints(arrIndex);
     controller.endRound();
   },
   changeAchList: (achIndex, val)=>{
@@ -97,10 +111,21 @@ var controller = {
   },
   resetAchList: ()=>{
     for(i=0; i<controller.ach.length; i++){
-      if (controller.ach[i]<2){
+      if (controller.ach[i]<3){
         controller.ach[i]=0;
       }
     }
+    view.renderAchBtn();
+  },
+  updatePoints: (arrIndex)=>{
+    let sumOfPoints;
+    if (controller.ach[arrIndex]==3){
+      sumOfPoints = controller.sumPoints(controller.saved);
+    } else {
+      sumOfPoints = 0;
+    }
+    controller.addPoints(arrIndex, sumOfPoints);
+    controller.totalPoints();
   },
   sumPoints: (arr)=>{
     var sum = arr. reduce(function(a, b){
@@ -110,9 +135,10 @@ var controller = {
   },
   addPoints: (arrIndex, sum)=>{
     controller.points[arrIndex]=sum;
+    view.renderPoint(arrIndex, sum);
   },
-  totalPoints: (arr)=>{
-    var sum = arr. reduce(function(a, b){
+  totalPoints: ()=>{
+    var sum = controller.points.reduce(function(a, b){
       return a + b;
       }, 0);
     view.renderTotalPoints(sum);
@@ -128,19 +154,33 @@ var view = {
     //update innerHTML or make a class
     if (controller.count==controller.numOfRolls){
     document.getElementById('rollButton').style.display = "none";//display none instead
+    controller.checkAchievement();
     } else {
       document.getElementById('rollButton').style.display="initial";
     }
   },
-  renderAchBtn: ()=>{ //0=not available 1=available 2=selected 3=cancelled
+  renderAchBtn: ()=>{ //OLD : 0=not available 1=available 2=selected 3=cancel available 4=cancelled
+     /**************************
+     *   0 = not available     *
+     *   1 = select available  *
+     *   2 = cancel available  *
+     *   3 = selected          *
+     *   4 = cancelled         *
+    ***************************/
+
     for (i=0;i<controller.ach.length;i++){
       var loc = i+30;
       var p = document.getElementById(loc);
-      if(controller.ach[i]==0 || controller.ach[i]==2){
-        p.setAttribute('class', 'btnInvis');
-      }
-      else if(controller.ach[i]==1){
+      if(controller.ach[i]==1){
         p.setAttribute('class', 'btnSelect');
+        p.innerHTML='+';
+      }
+      else if(controller.ach[i]==2){
+        p.setAttribute('class', 'btnCancel');
+        p.innerHTML='-';
+      } 
+      else {
+        p.setAttribute('class', 'btnInvis');
       }
     }
   },
@@ -150,7 +190,7 @@ var view = {
   },
   renderTotalPoints: (sum)=>{
     document.getElementById("69").innerHTML=sum;
-  }
+  },
 }
 //--------------------------------------------------------------
 var achievement = {
@@ -161,7 +201,7 @@ var achievement = {
 
     function checkSame(join){
 
-      if (controller.ach[0]<2){
+      if (controller.ach[0]<3){
         if (join === "1" ||
             join === "11" ||
             join === "111" ||
@@ -170,11 +210,13 @@ var achievement = {
             join === "111111"){
               console.log('aces');
               controller.ach[0]=1;
+        } else if(controller.count === controller.numOfRolls){
+            controller.ach[0]=2;
         } else {
             controller.ach[0]=0;
         }
       }
-      if (controller.ach[1]<2){
+      if (controller.ach[1]<3){
         if (join === "2" ||
             join === "22" ||
             join === "222" ||
@@ -183,11 +225,13 @@ var achievement = {
             join === "222222"){
               console.log('twoes');
               controller.ach[1]=1;
-        } else {
+        } else if(controller.count === controller.numOfRolls){
+          controller.ach[1]=2;
+      }  else {
           controller.ach[1]=0;
         }
       }
-      if (controller.ach[2]<2){
+      if (controller.ach[2]<3){
         if (join === "3" ||
             join === "33" ||
             join === "333" ||
@@ -196,11 +240,13 @@ var achievement = {
             join === "333333"){
               console.log('threes');
               controller.ach[2]=1;
-        } else {
+        } else if(controller.count === controller.numOfRolls){
+          controller.ach[2]=2;
+      }  else {
           controller.ach[2]=0;
         }
       }
-      if (controller.ach[3]<2){
+      if (controller.ach[3]<3){
         if (join === "4" ||
             join === "44" ||
             join === "444" ||
@@ -209,11 +255,13 @@ var achievement = {
             join === "444444"){
               console.log('fours');
               controller.ach[3]=1;
-        } else {
+        } else if(controller.count === controller.numOfRolls){
+          controller.ach[3]=2;
+      }  else {
           controller.ach[3]=0;
         }
       }
-      if (controller.ach[4]<2){
+      if (controller.ach[4]<3){
         if (join === "5" ||
             join === "55" ||
             join === "555" ||
@@ -222,11 +270,13 @@ var achievement = {
             join === "555555"){
               console.log('fives');
               controller.ach[4]=1;
-        } else {
+        } else if(controller.count === controller.numOfRolls){
+          controller.ach[4]=2;
+      }  else {
           controller.ach[4]=0;
         }
       }
-      if (controller.ach[5]<2){
+      if (controller.ach[5]<3){
         if (join === "6" ||
             join === "66" ||
             join === "666" ||
@@ -235,11 +285,13 @@ var achievement = {
             join === "666666"){
               console.log('sixes');
               controller.ach[5]=1;
-        } else {
+        } else if(controller.count === controller.numOfRolls){
+          controller.ach[5]=2;
+      }  else {
           controller.ach[5]=0;
         }
       }
-      if (controller.ach[6]<2){
+      if (controller.ach[6]<3){
         if (join === "111" ||
             join === "222" ||
             join === "333" ||
@@ -248,11 +300,13 @@ var achievement = {
             join === "666"){
               console.log('3 of a kind');
               controller.ach[6]=1;
-        } else {
+        } else if(controller.count === controller.numOfRolls){
+          controller.ach[6]=2;
+      }  else {
           controller.ach[6]=0;
         }
       }
-      if (controller.ach[7]<2){
+      if (controller.ach[7]<3){
         if (join === "1111" ||
             join === "2222" ||
             join === "3333" ||
@@ -261,34 +315,43 @@ var achievement = {
             join === "6666"){
               console.log('4 of a kind');
               controller.ach[7]=1;
-        } else {
+        } else if(controller.count === controller.numOfRolls){
+          controller.ach[7]=2;
+      }  else {
           controller.ach[7]=0;
         }
       }
-      if (controller.ach[8]<2){
+      if (controller.ach[8]<3){
         if (join === "12345"){
           console.log('Small Straight');
           controller.ach[8]=1;
-        } else {
+        } else if(controller.count === controller.numOfRolls){
+          controller.ach[8]=2;
+      }  else {
           controller.ach[8]=0;
         }
       }
-      if (controller.ach[9]<2){
+      if (controller.ach[9]<3){
         if (join === "23456"){
           console.log('Large Straight');
           controller.ach[9]=1;
-        } else {
+        } else if(controller.count === controller.numOfRolls){
+          controller.ach[9]=2;
+      }  else {
           controller.ach[9]=0;
         }
       }
-      if (controller.ach[10]<2){
+      if (controller.ach[10]<3){
         if (join === "123456"){
           console.log('yatzy');
           controller.ach[10]=1;
-        } else {
+        } else if(controller.count === controller.numOfRolls){
+          controller.ach[10]=2;
+      }  else {
           controller.ach[10]=0;
         }
       }
+      // make 'chance' ach 
     }
   }
 }

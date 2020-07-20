@@ -56,10 +56,6 @@ body {
       cursor: pointer;
       font-size: 26px;
     }
-    button {
-      margin-left: 10px;
-      background-color: rgb(196, 98, 0);
-    }
     #achievementList {
       position: absolute;
       font-size: 20px;
@@ -90,21 +86,14 @@ body {
       border-radius: 10px 0 0 0px;
       color: rgb(230, 230, 230);
     }
-    #achievementList .achNameSelected {
-      background-color: blue;
-      height: 36px;
-      width: 200px;
-      padding-left: 20px;
-      border: solid rgb(196, 98, 0) 2px;
-      border-right: none;
-    }
     #achievementList .btnSelect{
-      color: green;
+      background-color: rgba(95, 255, 220, 0.8);
       height: 36px;
       width: 36px;
       font-size: 20px;
     }
     #achievementList .btnCancel{
+      background-color: red;
       height: 36px;
       width: 36px;
       font-size: 20px;
@@ -115,9 +104,6 @@ body {
     }
     #achievementList .btnInvis {
       display: none;
-    }
-    #achievementList .btnSelected {
-      background-color: rgba(95, 255, 220, 0.8);
     }
    
     #saved tr:hover,
